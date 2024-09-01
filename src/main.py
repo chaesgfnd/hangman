@@ -8,7 +8,11 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 
 def main():
-	print("Hello World!")
+	text="turtle"
+	run(text)
+
+def run(text: str):
+	print(text)
 
 
 if __name__=="__main__":
