@@ -13,7 +13,7 @@ def main():
 	run(correct_word, tries)
 
 def run(correct_word: str, tries: int):
-	for _ in range(tries):
+	while tries>0:
 		guessed_char=input()
 	
 		if len(guessed_char)==1:
@@ -28,6 +28,14 @@ def run(correct_word: str, tries: int):
 			continue
 	
 		ic(correct_word, tries, guessed_char)
+
+		if guessed_char=="t":
+			guess_is_correct=False
+		else:
+			guess_is_correct=True
+			
+		if not guess_is_correct:
+			tries=tries-1 
 	
 
 
