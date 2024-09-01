@@ -9,8 +9,8 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 def main():
 	text="turtle"
-	tries=9
-	for _ in range(9):
+	tries=3
+	for _ in range(3):
 		run(text, tries)
 
 def run(text: str, tries: int):
