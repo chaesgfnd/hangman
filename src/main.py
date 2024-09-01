@@ -8,14 +8,14 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 
 def main():
-	text=input()
-	tries=int(input())
-	run(text,tries)
-	
+	correct_word="turtle"
+	tries=9
+	run(correct_word, tries)
 
-def run(text: str, tries: int):
-	for _ in range(3):
-		ic(text, tries)
+def run(correct_word: str, tries: int):
+	for _ in range(tries):
+		guessed_char=input()
+		ic(correct_word, tries, guessed_char)
 
 
 if __name__=="__main__":
