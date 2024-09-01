@@ -8,8 +8,8 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 
 def main():
-	text="turtle"
-	tries=3
+	text=input()
+	tries=int(input())
 	run(text,tries)
 	
 
