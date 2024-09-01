@@ -10,11 +10,12 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 def main():
 	text="turtle"
 	tries=3
+	run(text,tries)
 	
 
 def run(text: str, tries: int):
 	for _ in range(3):
-		run(text, tries)
+		ic(text, tries)
 
 
 if __name__=="__main__":
