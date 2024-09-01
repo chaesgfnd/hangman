@@ -15,7 +15,20 @@ def main():
 def run(correct_word: str, tries: int):
 	for _ in range(tries):
 		guessed_char=input()
+	
+		if len(guessed_char)==1:
+			input_is_correct=True
+		else:
+			input_is_correct=False
+
+		if input_is_correct:
+			pass
+		else:
+			print("nooo, input must consist of a single character")
+			continue
+	
 		ic(correct_word, tries, guessed_char)
+	
 
 
 if __name__=="__main__":
