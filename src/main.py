@@ -24,12 +24,13 @@ def run(correct_word: str, tries: int):
 			print("nooo, input must consist of a single character")
 			continue
 
-		ic(correct_word, tries, guessed_char)
-
-		guess_is_correct = guessed_char != "t"
+		guess_is_correct = guessed_char in correct_word
 
 		if not guess_is_correct:
 			tries -= 1
+
+		ic(correct_word, tries, guessed_char, guess_is_correct)
+			
 
 
 if __name__ == "__main__":
