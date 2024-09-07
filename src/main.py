@@ -17,8 +17,7 @@ def main():
 def run(correct_word: str, tries: int):
 	print("game start")
 	while tries > 0:
-		print("input yous guess")
-		guessed_char = input()
+		guessed_char = input("input your guess: ")
 
 		if len(guessed_char) == 1:
 			pass
@@ -32,7 +31,6 @@ def run(correct_word: str, tries: int):
 			tries -= 1
 
 		ic(correct_word, tries, guessed_char, guess_is_correct)
-			
 
 
 if __name__ == "__main__":
