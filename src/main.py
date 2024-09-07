@@ -15,8 +15,13 @@ def main():
 
 
 def run(correct_word: str, tries: int):
+
 	print("game start")
+	observed_correct_guesses=set()
+	win_condition_set=set(correct_word)
+
 	while tries > 0:
+
 		guessed_char = input("input your guess: ")
 
 		if len(guessed_char) == 1:
@@ -25,14 +30,17 @@ def run(correct_word: str, tries: int):
 			print("input must consist of a single character")
 			continue
 
-		win_condition_set = set(correct_word)
-
 		guess_is_correct = guessed_char in win_condition_set
 
-		if not guess_is_correct:
-			tries -= 1
+		if guess_is_correct:
+			observed_correct_guesses.add(guessed_char)
+		else:
+			tries -=1
 
-		ic(correct_word, tries, guessed_char, guess_is_correct, win_condition_set)
+		if observed_correct_guesses==win_condition_set:
+			break
+
+		ic(correct_word, tries, guessed_char, guess_is_correct, win_condition_set, observed_correct_guesses)
 
 
 if __name__ == "__main__":
