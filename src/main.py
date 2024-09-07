@@ -22,9 +22,9 @@ def run(correct_word: str, tries: int):
 	while tries > 0:
 		guess_str = input("input your guess: ")
 
-        guessed_char = None
+		guessed_char = None
 		if len(guess_str) == 1:
-            guessed_char = guess_str
+			guessed_char = guess_str
 		else:
 			print("input must consist of a single character")
 			continue
