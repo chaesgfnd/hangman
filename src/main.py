@@ -15,13 +15,15 @@ def main():
 
 
 def run(correct_word: str, tries: int):
+	print("game start")
 	while tries > 0:
+		print("input yous guess")
 		guessed_char = input()
 
 		if len(guessed_char) == 1:
 			pass
 		else:
-			print("nooo, input must consist of a single character")
+			print("input must consist of a single character")
 			continue
 
 		guess_is_correct = guessed_char in correct_word
