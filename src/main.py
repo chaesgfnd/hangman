@@ -11,10 +11,15 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 def main():
 	correct_word = "turtle"
 	tries = 9
-	run(correct_word, tries)
+	player_won = run(correct_word, tries)
+	print("player won" if player_won else "player lost")
 
 
-def run(correct_word: str, tries: int):
+def run(correct_word: str, tries: int) -> bool:
+	"""
+	# Returns
+	- `True` if the player wins, `False` otherwise.
+	"""
 	print("game start")
 	observed_correct_guesses = set()
 	win_condition_set = set(correct_word)
@@ -36,9 +41,10 @@ def run(correct_word: str, tries: int):
 			tries -= 1
 
 		if observed_correct_guesses == win_condition_set:
-			break
+			return True
 
 		ic(correct_word, tries, guessed_char, guess_is_correct, win_condition_set, observed_correct_guesses)
+	return False
 
 
 if __name__ == "__main__":
