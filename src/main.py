@@ -1,6 +1,7 @@
 from ValeraLib import chk  # noqa: F401
 from ValeraLib.prelude import *
 from typing import Any, Self, Union, Optional, List, Tuple, Callable, TypeVar, Generic  # noqa: F401
+import random as rand
 
 try:
 	from icecream import ic  # noqa: F401
@@ -8,7 +9,7 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 	ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)  # noqa
 
 def main():
-	correct_word = "turtle"
+	correct_word = choose_word()
 	tries = 9
 	outcome = run(correct_word, tries)
 	s = "winning" if outcome else "losing"
@@ -66,6 +67,14 @@ def render_guessed(correct_word: str, observed_correct_guesses: set) -> str:
 			s += " "
 		i = i+1	
 	return s
+
+def choose_word() -> str:
+	words = ["turtle", "brush", "tragedy"]
+
+	r: int = rand.randint(0, len(words))
+
+	return words[r]
+	
 
 
 if __name__ == "__main__":
