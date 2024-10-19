@@ -4,10 +4,6 @@ indent-width = 2
 src = ["src", "test"] # Allow imports relative to the "src" and "test" directories.
 #not-in-test = false
 
-# Allow fix for all enabled rules (when `--fix`) is provided.
-fixable = ["ALL"]
-unfixable = []
-
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "tab"
@@ -20,7 +16,7 @@ required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.lint]
 # Allow fix for all enabled rules (when `--fix`) is provided.
-fixable = [] #["ALL"]
+fixable = ["ALL"]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 task-tags = ["TODO", "FIXME", "Q", "BUG", "NB"]
