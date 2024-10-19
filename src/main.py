@@ -2,6 +2,8 @@ from ValeraLib import chk  # noqa: F401
 from ValeraLib.prelude import *
 from typing import Any, Self, Union, Optional, List, Tuple, Callable, TypeVar, Generic  # noqa: F401
 import random as rand
+import json
+import os
 
 try:
 	from icecream import ic  # noqa: F401
@@ -10,7 +12,7 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 def main():
 	correct_word = choose_word()
-	tries = 9
+	tries = 11
 	outcome = run(correct_word, tries)
 	s = "winning" if outcome else "losing"
 	print(f"congratulations on {s}")
@@ -69,7 +71,10 @@ def render_guessed(correct_word: str, observed_correct_guesses: set) -> str:
 	return s
 
 def choose_word() -> str:
-	words = ["turtle", "brush", "tragedy"]
+	current_dir = os.path.dirname(os.path.abspath(__file__))
+	words_filepath = os.path.join(current_dir, "../e1k.json")
+	with open(words_filepath, 'r') as file:
+		words = json.load(file)
 
 	r: int = rand.randint(0, len(words))
 
