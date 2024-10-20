@@ -11,22 +11,22 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 	ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)  # noqa
 
 def main():
-	correct_word = choose_word()
-	tries = 11
+	correct_word = choose_word("../e1k.json")
 	outcome = run(correct_word, tries)
 	s = "winning" if outcome else "losing"
 	print(f"congratulations on {s}")
 
 
-def run(correct_word: str, tries: int) -> bool:
+def run(correct_word: str) -> bool:
 	"""
 	returns: did player win
 	"""
 	print("game start")
+	tries_left = 11
 	observed_correct_guesses = set()
 	win_condition_set = set(correct_word)
 
-	while tries > 0:
+	while tries_left > 0:
 		guess_str = input("input your guess: ")
 
 		guessed_char = None
@@ -41,13 +41,14 @@ def run(correct_word: str, tries: int) -> bool:
 		if guess_is_correct:
 			observed_correct_guesses.add(guessed_char)
 		else:
-			tries -= 1
+			tries_left -= 1
 
 		if observed_correct_guesses == win_condition_set:
 			return True
 
+		hangman = display_hangman(tries_left)
 		rendered_word = render_guessed(correct_word, observed_correct_guesses)
-		s = f"\n{rendered_word}\nguesses left: {tries}\n"
+		s = f"\n{rendered_word}\n{hangman}\n"
 		print(s)
 
 	return False
@@ -70,9 +71,9 @@ def render_guessed(correct_word: str, observed_correct_guesses: set) -> str:
 		i = i+1	
 	return s
 
-def choose_word() -> str:
+def choose_word(relative_path: str) -> str:
 	current_dir = os.path.dirname(os.path.abspath(__file__))
-	words_filepath = os.path.join(current_dir, "../e1k.json")
+	words_filepath = os.path.join(current_dir, relative_path)
 	with open(words_filepath, 'r') as file:
 		words = json.load(file)
 
@@ -80,7 +81,8 @@ def choose_word() -> str:
 
 	return words[r]
 	
-
+def display_hangman(tries: int) -> str:
+	return "me hangman"
 
 if __name__ == "__main__":
 	main()
