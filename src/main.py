@@ -1,9 +1,11 @@
-from ValeraLib import chk  # noqa: F401
-from ValeraLib.prelude import *
+from __future__ import annotations
 from typing import Any, Self, Union, Optional, List, Tuple, Callable, TypeVar, Generic  # noqa: F401
 import random as rand
 import json
 import os
+import sys
+from hangman import Hangman
+from difficulty import Difficulty
 
 try:
 	from icecream import ic  # noqa: F401
@@ -11,17 +13,23 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 	ic = lambda *a: None if not a else (a[0] if len(a) == 1 else a)  # noqa
 
 
+# I just unwrap on everything because python makes it painstakingly hard to check for type equality. Normally you'd match on whether the result is Ok or Err, then choose an action based on the check. `unwrap` means it's either `Ok`, or `fuck this I'm out`.
 def main():
-	correct_word = choose_word("../e1k.json")
-	outcome = run(correct_word)
+	difficulty_str = sys.argv[1]
+	difficulty = Difficulty.from_str(difficulty_str).unwrap()
+
+	correct_word = choose_word(difficulty.wordsource_path())
+	hangman = Hangman.from_difficulty(difficulty)
+	outcome = run(correct_word, hangman)
 	s = "winning" if outcome else "losing"
 	print(f"congratulations on {s}")
 
 
-def run(correct_word: str) -> bool:
+def run(correct_word: str, hangman: Hangman) -> bool:
 	"""
 	returns: did player win
 	"""
+
 	print("game start")
 	tries_left = 13
 	observed_correct_guesses = set()
@@ -47,9 +55,11 @@ def run(correct_word: str) -> bool:
 		if observed_correct_guesses == win_condition_set:
 			return True
 
-		hangman = display_hangman(tries_left)
-		rendered_word = render_guessed(correct_word, observed_correct_guesses)
-		s = f"\n{rendered_word}\n{hangman}\n"
+		hangman_str: str = (
+			hangman.get_representation(tries_left).unwrap()
+		)  # notice unwrap. it's here because function will fail if we pass tries_left that is not supported by the current hangman. Then us using unwrap implies that we internally guarantee that won't ever happen.
+		rendered_word: str = render_guessed(correct_word, observed_correct_guesses)
+		s = f"\n{rendered_word}\n{hangman_str}\n"
 
 		ic(tries_left)
 		print(s)
@@ -85,60 +95,6 @@ def choose_word(relative_path: str) -> str:
 	r: int = rand.randint(0, len(words))
 
 	return words[r]
-
-
-
-def display_hangman(tries_left: int) -> str:
-    """
-    With tries passing, converges to:
-    r'''
-    r-o.
-    |-|-
-    |.|.
-    |/.\
-    |...
-    '''
-    """
-
-    s = """\
-....
-....
-....
-....
-...."""
-
-    s_list = list(s)
-
-    if tries_left < 13:
-        s_list[(5 * 4 + 1) - 1] = "|"
-    if tries_left < 12:
-        s_list[(5 * 3 + 1) - 1] = "|"
-    if tries_left < 11:
-        s_list[(5 * 2 + 1) - 1] = "|"
-    if tries_left < 10:
-        s_list[(5 * 1 + 1) - 1] = "|"
-    if tries_left < 9:
-        s_list[0] = "r"
-    if tries_left < 8:
-        s_list[1] = "-"
-    if tries_left < 5:
-        s_list[(5 * 2 + 2) - 1] = "-"
-    if tries_left < 7:
-        s_list[(5 * 1 + 3) - 1] = "o"
-    if tries_left < 6:
-        s_list[(5 * 2 + 3) - 1] = "|"
-    if tries_left < 4:
-        s_list[(5 * 2 + 4) - 1] = "-"
-    if tries_left < 3:
-        s_list[(5 * 3 + 2) - 1] = "/"
-    if tries_left < 2:
-        s_list[(5 * 3 + 4) - 1] = "\\"
-
-    s = "".join(s_list)
-
-    return s
-
-
 
 
 if __name__ == "__main__":
