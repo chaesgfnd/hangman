@@ -31,7 +31,7 @@ def run(correct_word: str, hangman: Hangman) -> bool:
 	"""
 
 	print("game start")
-	tries_left = 13
+	tries_left = hangman.init_tries()
 	observed_correct_guesses = set()
 	win_condition_set = set(correct_word)
 
