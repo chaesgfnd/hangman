@@ -24,7 +24,7 @@ class Hangman:
 	repr: List[R]
 
 	def init_tries(self) -> int:
-		return repr.__len__()
+		return self.tries
 
 	@property
 	def tries(self) -> int:
