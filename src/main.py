@@ -24,6 +24,10 @@ def main():
 	s = "winning" if outcome else "losing"
 	print(f"congratulations on {s}")
 
+def draw_window():
+	input_text = "input your guess: "
+	return input_text
+
 
 def run(correct_word: str, hangman: Hangman) -> bool:
 	"""
@@ -36,7 +40,7 @@ def run(correct_word: str, hangman: Hangman) -> bool:
 	win_condition_set = set(correct_word)
 
 	while tries_left > 0:
-		guess_str = input("input your guess: ")
+		guess_str = input(input_text)
 
 		guessed_char = None
 		if len(guess_str) == 1:
