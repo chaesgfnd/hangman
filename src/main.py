@@ -22,11 +22,11 @@ def main():
 	correct_word = choose_word(difficulty.wordsource_path())
 	hangman = Hangman.from_difficulty(difficulty)
 	outcome = run(correct_word, hangman)
-	s = "winning" if outcome else f"losing, the correct word is {correct_word}"
+	s = "winning" if outcome else f"losing, the correct word is \"{correct_word}\""
 	print(f"congratulations on {s}")
 
 
-def draw_window(hangman: Hangman, tries_left: str, correct_word: str, observed_correct_guesses: set) -> str:
+def draw_window(hangman: Hangman, tries_left: str, correct_word: str, observed_correct_guesses: set, observed_wrong_guesses: list) -> str:
 	"""
 	returns: game interface at the current step
 	"""
@@ -39,6 +39,12 @@ def draw_window(hangman: Hangman, tries_left: str, correct_word: str, observed_c
 	rendered_word: str = render_guessed(correct_word, observed_correct_guesses)
 	s += f"\n{rendered_word}\n{hangman_str}\n"
 	s += f"tries left: {tries_left}"
+	#my_set = {"one", "two", "three"}
+#print(" ".join(my_set))
+	mistakes = ""
+	for k in observed_wrong_guesses:
+		mistakes += k
+	s += f"\nwrong guesses: {mistakes} "
 	s += "\ninput your guess: "
 
 	return s
@@ -51,10 +57,11 @@ def run(correct_word: str, hangman: Hangman) -> bool:
 	print("game start")
 	tries_left = hangman.init_tries()
 	observed_correct_guesses = set()
+	observed_wrong_guesses = list()
 	win_condition_set = set(correct_word)
 
 	while tries_left > 0:
-		window_frame_str = draw_window(hangman, tries_left, correct_word, observed_correct_guesses)
+		window_frame_str = draw_window(hangman, tries_left, correct_word, observed_correct_guesses, observed_wrong_guesses)
 		guess_str = input(window_frame_str)
 		guessed_char = None
 		if len(guess_str) == 1:
@@ -69,6 +76,7 @@ def run(correct_word: str, hangman: Hangman) -> bool:
 			observed_correct_guesses.add(guessed_char)
 		else:
 			tries_left -= 1
+			observed_wrong_guesses.append(guessed_char)
 
 		if observed_correct_guesses == win_condition_set:
 			return True
