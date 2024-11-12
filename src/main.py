@@ -22,7 +22,7 @@ def main():
 	correct_word = choose_word(difficulty.wordsource_path())
 	hangman = Hangman.from_difficulty(difficulty)
 	outcome = run(correct_word, hangman)
-	s = "winning" if outcome else "losing"
+	s = "winning" if outcome else f"losing, the correct word is {correct_word}"
 	print(f"congratulations on {s}")
 
 
